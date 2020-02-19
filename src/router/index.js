@@ -1,27 +1,37 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import InboxView from "../views/InboxView.vue";
+import TodayView from "../views/TodayView";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "home",
+    redirect: { name: "inbox" }
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/inbox",
+    name: "inbox.index",
+    redirect: { name: "inbox", params: { currentPage: 1 } }
+  },
+  {
+    path: "/inbox/:currentPage?",
+    name: "inbox",
+    component: InboxView,
+    props: true
+  },
+  {
+    path: "/today",
+    name: "today",
+    component: TodayView,
+    props: true
   }
 ];
 
 const router = new VueRouter({
+  mode: "history",
   routes
 });
 
